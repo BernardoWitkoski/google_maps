@@ -85,15 +85,18 @@ class _HomeState extends State<Home> {
   Set<Polygon> _polygons = {};
   Set<Polyline> _polylines = {};
 
-  final CameraPosition _cameraPosition = CameraPosition(
+  CameraPosition _cameraPosition = CameraPosition(
           zoom: 16,
           target: LatLng(-27.61310389786854, -52.22349063811818),
       );
 
   _recuperaLocalizacaoUsuario() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _cameraPosition = CameraPosition(target: LatLng(position.latitude, position.longitude));
+    });
   }
-  
+
 
 
 @override
@@ -101,6 +104,8 @@ class _HomeState extends State<Home> {
     super.initState();
     _carregarMarcadores();
     _carregaPolygons();
+    _carregaPolylines();
+    _recuperaLocalizacaoUsuario();
   }
 
   @override
@@ -109,9 +114,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(),
       body: GoogleMap(
         mapType: MapType.hybrid,
-        initialCameraPosition: CameraPosition(
-          zoom: 16,
-          target: LatLng(-27.61310389786854, -52.22349063811818)),
+        initialCameraPosition: _cameraPosition,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
@@ -119,7 +122,6 @@ class _HomeState extends State<Home> {
           polylines: _polylines,
           markers: _marcadores,
         ),
-
     );
   }
 }
