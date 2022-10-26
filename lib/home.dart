@@ -112,6 +112,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(onPressed: _recuperaLocalizacaoUsuario),
       body: GoogleMap(
         mapType: MapType.hybrid,
         initialCameraPosition: _cameraPosition,
