@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -82,6 +84,16 @@ class _HomeState extends State<Home> {
   Set<Marker> _marcadores = {};
   Set<Polygon> _polygons = {};
   Set<Polyline> _polylines = {};
+
+  final CameraPosition _cameraPosition = CameraPosition(
+          zoom: 16,
+          target: LatLng(-27.61310389786854, -52.22349063811818),
+      );
+
+  _recuperaLocalizacaoUsuario() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+  
 
 
 @override
